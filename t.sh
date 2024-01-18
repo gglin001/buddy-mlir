@@ -25,3 +25,22 @@ popd
 # replace with local repo
 rm -rf $PWD/llvm
 ln -sf $PWD/llvm-project-$TAG $PWD/llvm
+
+# build llvm
+cmake \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DLLVM_ENABLE_PROJECTS="mlir;clang" \
+    -DLLVM_TARGETS_TO_BUILD="host;RISCV" \
+    -DLLVM_ENABLE_ASSERTIONS=ON \
+    -DLLVM_ENABLE_LLD=ON \
+    -DLLVM_ENABLE_ZSTD=OFF \
+    -DLLVM_ENABLE_TERMINFO=OFF \
+    -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
+    -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE \
+    -DCMAKE_INSTALL_PREFIX:STRING=$PWD/build_llvm/install \
+    -S $PWD/llvm/llvm \
+    -B $PWD/build_llvm \
+    -G Ninja
+
+cmake --build $PWD/build_llvm --target all --
