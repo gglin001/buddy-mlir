@@ -44,3 +44,10 @@ cmake \
     -G Ninja
 
 cmake --build $PWD/build_llvm --target all --
+
+# build buddy-mlir
+
+# test
+buddy-opt \
+    -lower-rvv \
+    examples/RVVDialect/rvv-setvl.mlir
