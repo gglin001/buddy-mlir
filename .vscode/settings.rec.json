@@ -12,4 +12,8 @@
     "terminal.integrated.env.osx": {
         "EXT_PATH": "${workspaceFolder}/build/bin",
     },
+    "search.exclude": {
+        "**/llvm": true,
+        "**/llvm-project**": true,
+    },
 }
