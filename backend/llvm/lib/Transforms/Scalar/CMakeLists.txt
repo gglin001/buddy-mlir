@@ -41,7 +41,7 @@ add_llvm_component_library(LLVMBuddyScalarOpts
   ${LLVM_Scalar_DIR}/LoopLoadElimination.cpp
   ${LLVM_Scalar_DIR}/LoopPassManager.cpp
   ${LLVM_Scalar_DIR}/LoopPredication.cpp
-  ${LLVM_Scalar_DIR}/LoopRerollPass.cpp
+  # ${LLVM_Scalar_DIR}/LoopRerollPass.cpp
   ${LLVM_Scalar_DIR}/LoopRotation.cpp
   ${LLVM_Scalar_DIR}/LoopSimplifyCFG.cpp
   ${LLVM_Scalar_DIR}/LoopStrengthReduce.cpp

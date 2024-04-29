@@ -21,7 +21,7 @@ add_llvm_component_library(LLVMBuddyCodeGen
   ${LLVM_CodeGen_DIR}/CFIInstrInserter.cpp
   ${LLVM_CodeGen_DIR}/CodeGen.cpp
   ${LLVM_CodeGen_DIR}/CodeGenCommonISel.cpp
-  ${LLVM_CodeGen_DIR}/CodeGenPassBuilder.cpp
+  # ${LLVM_CodeGen_DIR}/CodeGenPassBuilder.cpp
   ${LLVM_CodeGen_DIR}/CodeGenPrepare.cpp
   ${LLVM_CodeGen_DIR}/CommandFlags.cpp
   ${LLVM_CodeGen_DIR}/ComplexDeinterleavingPass.cpp
@@ -65,7 +65,7 @@ add_llvm_component_library(LLVMBuddyCodeGen
   ${LLVM_CodeGen_DIR}/LexicalScopes.cpp
   ${LLVM_CodeGen_DIR}/LiveDebugVariables.cpp
   ${LLVM_CodeGen_DIR}/LiveIntervals.cpp
-  ${LLVM_CodeGen_DIR}/LiveInterval.cpp
+  # ${LLVM_CodeGen_DIR}/LiveInterval.cpp
   ${LLVM_CodeGen_DIR}/LiveIntervalUnion.cpp
   ${LLVM_CodeGen_DIR}/LivePhysRegs.cpp
   ${LLVM_CodeGen_DIR}/LiveRangeCalc.cpp
@@ -251,7 +251,7 @@ add_llvm_component_library(LLVMBuddyCodeGen
   Support
   BuddyTarget
   BuddyTransformUtils
-  
+
   )
 
 add_subdirectory(SelectionDAG)

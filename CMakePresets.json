@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "configurePresets": [
+    {
+      "name": "iree_llvm",
+      "description": "for iree_llvm docker env",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/install",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+        "CMAKE_C_COMPILER": "/usr/bin/clang",
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_POSITION_INDEPENDENT_CODE": true,
+        "BUDDY_MLIR_OUT_OF_TREE_BUILD": true,
+        "LLVM_DIR": "/iree-llvm-project/build/install/lib/cmake/llvm",
+        "MLIR_DIR": "/iree-llvm-project/build/install/lib/cmake/mlir",
+        "LLVM_MLIR_BINARY_DIR": "/iree-llvm-project/build/install/bin",
+        "LLVM_MLIR_LIBRARY_DIR": "/iree-llvm-project/build/install/lib",
+        "LLVM_PROJECT_BUILD_DIR": "/iree-llvm-project/build/install",
+        "LLVM_PROJECT_SOURCE_DIR": "/iree-llvm-project",
+        "LLVM_ENABLE_ASSERTIONS": true
+      }
+    }
+  ]
+}

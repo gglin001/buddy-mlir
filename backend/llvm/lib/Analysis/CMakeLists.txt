@@ -53,8 +53,8 @@ add_llvm_component_library(LLVMBuddyAnalysis
   ${LLVM_Analysis_DIR}/InstructionPrecedenceTracking.cpp
   ${LLVM_Analysis_DIR}/InstructionSimplify.cpp
   ${LLVM_Analysis_DIR}/InteractiveModelRunner.cpp
-  ${LLVM_Analysis_DIR}/Interval.cpp
-  ${LLVM_Analysis_DIR}/IntervalPartition.cpp
+  # ${LLVM_Analysis_DIR}/Interval.cpp
+  # ${LLVM_Analysis_DIR}/IntervalPartition.cpp
   ${LLVM_Analysis_DIR}/LazyBranchProbabilityInfo.cpp
   ${LLVM_Analysis_DIR}/LazyBlockFrequencyInfo.cpp
   ${LLVM_Analysis_DIR}/LazyCallGraph.cpp
@@ -118,7 +118,7 @@ add_llvm_component_library(LLVMBuddyAnalysis
   ${LLVM_Analysis_DIR}/ValueLatticeUtils.cpp
   ${LLVM_Analysis_DIR}/ValueTracking.cpp
   ${LLVM_Analysis_DIR}/VectorUtils.cpp
-  ${LLVM_Analysis_DIR}/VFABIDemangling.cpp
+  # ${LLVM_Analysis_DIR}/VFABIDemangling.cpp
 
   ${GeneratedMLSources}
 

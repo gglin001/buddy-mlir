@@ -1,19 +1,12 @@
 {
-    "cmake.configureSettings": {
-        "CMAKE_INSTALL_PREFIX": "${workspaceFolder}/build/install",
-        "MLIR_DIR": "${workspaceFolder}/build_llvm/lib/cmake/mlir",
-        "LLVM_DIR": "${workspaceFolder}/build_llvm/lib/cmake/llvm",
-        "CMAKE_POSITION_INDEPENDENT_CODE": true,
-        "LLVM_ENABLE_ASSERTIONS": true,
-    },
     "terminal.integrated.env.linux": {
         "EXT_PATH": "${workspaceFolder}/build/bin",
     },
     "terminal.integrated.env.osx": {
         "EXT_PATH": "${workspaceFolder}/build/bin",
     },
-    "search.exclude": {
-        "**/llvm": true,
-        "**/llvm-project**": true,
-    },
+    // "files.trimTrailingWhitespace": false,
+    // "files.insertFinalNewline": false,
+    // use abs path
+    // "mlir.server_path": "${workspaceFolder}/build/bin/buddy-lsp-server",
 }

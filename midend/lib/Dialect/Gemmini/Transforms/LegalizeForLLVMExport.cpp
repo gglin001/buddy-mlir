@@ -105,8 +105,8 @@ class ForwardOperands : public OpConversionPattern<OpTy> {
                   ConversionPatternRewriter &rewriter) const final {
     if (adaptor.getOperands().getTypes() == op->getOperands().getTypes())
       return rewriter.notifyMatchFailure(op, "operand types already match");
-    rewriter.updateRootInPlace(
-        op, [&]() { op->setOperands(adaptor.getOperands()); });
+    // rewriter.updateRootInPlace(
+    //     op, [&]() { op->setOperands(adaptor.getOperands()); });
     return success();
   }
 };
@@ -118,8 +118,8 @@ public:
   LogicalResult
   matchAndRewrite(func::ReturnOp op, OpAdaptor adaptor,
                   ConversionPatternRewriter &rewriter) const final {
-    rewriter.updateRootInPlace(
-        op, [&]() { op->setOperands(adaptor.getOperands()); });
+    // rewriter.updateRootInPlace(
+    //     op, [&]() { op->setOperands(adaptor.getOperands()); });
     return success();
   }
 };

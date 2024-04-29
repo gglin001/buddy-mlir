@@ -120,7 +120,7 @@ void FuncBufferizeDynamicOffsetPass::runOnOperation() {
       if (!rankedDestType)
         return nullptr;
       FailureOr<Value> replacement = bufferization::castOrReallocMemRefValue(
-          builder, inputs[0], rankedDestType);
+          builder, inputs[0], rankedDestType, {});
       if (failed(replacement))
         return nullptr;
       return *replacement;

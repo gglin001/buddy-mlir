@@ -92,7 +92,7 @@ class ScheTargetNode{
 
 
   private:
-    SmallVector<Operation*> op_list_; 
+    SmallVector<Operation*> op_list_;
     SmallVector<Value> used_;
     SmallVector<Value> defined_;
     SmallVector<Value> operands_;
@@ -186,52 +186,52 @@ public:
 
     auto sche_target_node_list = splitDevice(region);
 
-    rewriter.updateRootInPlace(func, [&](){
-      IRMapping mp;
-      rewriter.setInsertionPointToStart(&region.front());
-      for (auto&& node : sche_target_node_list) {
-        llvm::SmallVector<Value> operands;
-        for(auto v : node->getOperands()){
-          auto new_v = mp.lookupOrNull<Value>(v);
-          new_v = new_v ? new_v : v;
-          operands.push_back(new_v);
-        }
-        auto on_device_op = rewriter.create<sche::OnDeviceOp>(loc, node->getTargetId(), node->getTargetConfig(), 
-                                    node->getReturnValues().getTypes(), operands, [&](OpBuilder& builder, Location loc, ValueRange valueRange){
-          IRMapping mp_2;
-          for(auto&& [a, b] : llvm::zip(node->getOperands(), valueRange)){
-            mp_2.map(a, b);
-          }
-          for(auto&& op : node->getOpList()){
-            auto new_op = builder.insert(op->clone(mp_2));
-            for(auto&& [a, b] : llvm::zip(op->getResults(), new_op->getResults())){
-              mp_2.map(a, b);
-            }
-            builder.setInsertionPointAfter(new_op);
-          }
-          SmallVector<Value> return_values;
+    // rewriter.updateRootInPlace(func, [&](){
+    //   IRMapping mp;
+    //   rewriter.setInsertionPointToStart(&region.front());
+    //   for (auto&& node : sche_target_node_list) {
+    //     llvm::SmallVector<Value> operands;
+    //     for(auto v : node->getOperands()){
+    //       auto new_v = mp.lookupOrNull<Value>(v);
+    //       new_v = new_v ? new_v : v;
+    //       operands.push_back(new_v);
+    //     }
+    //     auto on_device_op = rewriter.create<sche::OnDeviceOp>(loc, node->getTargetId(), node->getTargetConfig(),
+    //                                 node->getReturnValues().getTypes(), operands, [&](OpBuilder& builder, Location loc, ValueRange valueRange){
+    //       IRMapping mp_2;
+    //       for(auto&& [a, b] : llvm::zip(node->getOperands(), valueRange)){
+    //         mp_2.map(a, b);
+    //       }
+    //       for(auto&& op : node->getOpList()){
+    //         auto new_op = builder.insert(op->clone(mp_2));
+    //         for(auto&& [a, b] : llvm::zip(op->getResults(), new_op->getResults())){
+    //           mp_2.map(a, b);
+    //         }
+    //         builder.setInsertionPointAfter(new_op);
+    //       }
+    //       SmallVector<Value> return_values;
 
-          for(auto&& v : node->getReturnValues()){
-            auto new_v = mp_2.lookupOrNull<Value>(v);
-            assert(new_v != nullptr);
-            return_values.push_back(new_v);
-          }
-          builder.create<sche::ReturnOp>(loc, return_values);
-        });
-        on_device_op.getOperation()->setAttr("sche.source", rewriter.getStringAttr("func"));
+    //       for(auto&& v : node->getReturnValues()){
+    //         auto new_v = mp_2.lookupOrNull<Value>(v);
+    //         assert(new_v != nullptr);
+    //         return_values.push_back(new_v);
+    //       }
+    //       builder.create<sche::ReturnOp>(loc, return_values);
+    //     });
+    //     on_device_op.getOperation()->setAttr("sche.source", rewriter.getStringAttr("func"));
 
-        for(auto&& [a, b] : llvm::zip(node->getReturnValues(), on_device_op.getResults())){
-          a.replaceAllUsesWith(b);
-          mp.map(a, b);
-        }
+    //     for(auto&& [a, b] : llvm::zip(node->getReturnValues(), on_device_op.getResults())){
+    //       a.replaceAllUsesWith(b);
+    //       mp.map(a, b);
+    //     }
 
-        for(auto op : node->getOpList()){
-          rewriter.eraseOp(op);
-        }
-        delete(node);
-      }
-      func.getOperation()->removeAttr("sche.devices");
-    });
+    //     for(auto op : node->getOpList()){
+    //       rewriter.eraseOp(op);
+    //     }
+    //     delete(node);
+    //   }
+    //   func.getOperation()->removeAttr("sche.devices");
+    // });
     return success();
 
   }
@@ -276,7 +276,7 @@ public:
       if(i == devices.size() - 1){
         end = upperBound;
       }
-      else{     
+      else{
         auto duty_ratio = rewriter.create<arith::ConstantOp>(loc, rewriter.getF32Type(), dict_attr.get("duty_ratio").dyn_cast<FloatAttr>());
         Value duty_value = rewriter.create<arith::MulFOp>(loc, stepRange, duty_ratio.getResult());
         duty_value = rewriter.create<arith::FPToSIOp>(loc, rewriter.getI32Type(), duty_value);
@@ -320,8 +320,8 @@ public:
             if(!contain) operands_.push_back(v);
           }
         }
-        
-        auto on_device_op = rewriter.create<sche::OnDeviceOp>(loc, targetId.dyn_cast<StringAttr>().getValue(), targetConfig.dyn_cast<StringAttr>().getValue(), 
+
+        auto on_device_op = rewriter.create<sche::OnDeviceOp>(loc, targetId.dyn_cast<StringAttr>().getValue(), targetConfig.dyn_cast<StringAttr>().getValue(),
                                     forOp.getResults().getTypes(), operands_, [&](OpBuilder& builder, Location loc, ValueRange valueRange){
                                       auto sub_forOp = builder.create<scf::ForOp>(loc, start, end, step, forOp.getInitArgs(), [&](OpBuilder& builder, Location loc, Value iv, ValueRange iterArgs){
                                         IRMapping mp;
@@ -361,10 +361,10 @@ public:
     auto loc = reduceSumOp.getLoc();
     auto ctx = rewriter.getContext();
     auto op = reduceSumOp.getOperation();
-    
+
     assert(isa<ArrayAttr>(op->getAttr("sche.devices")));
     auto devices = dyn_cast_or_null<ArrayAttr>(op->getAttr("sche.devices")).getValue();
-    
+
     auto reduce_axis = reduceSumOp.getAxis();
     auto input = reduceSumOp.getInput();
     Type input_type = input.getType();
@@ -387,10 +387,10 @@ public:
     auto start = 0;
     auto end = 0;
     auto range = input_shape[split_axis];
-    SmallVector<Value> inter_results; 
+    SmallVector<Value> inter_results;
 
     rewriter.setInsertionPoint(op);
-    
+
     for(auto i = 0; i < devices.size(); i++){
       auto device_info = devices[i];
       auto dict_attr = dyn_cast_or_null<DictionaryAttr>(device_info);
@@ -398,11 +398,11 @@ public:
       auto targetId = dict_attr.get("targetId");
       auto targetConfig = dict_attr.get("targetConfig");
       assert(isa<StringAttr>(targetId) && isa<StringAttr>(targetConfig) && isa<FloatAttr>(dict_attr.get("duty_ratio")));
-  
+
       if(i == devices.size() - 1){
         end = input_shape[split_axis];
       }
-      else{     
+      else{
         auto duty_ratio = dict_attr.get("duty_ratio").dyn_cast<FloatAttr>().getValueAsDouble();
         end = start + (int)(duty_ratio * range);
       }
@@ -423,18 +423,18 @@ public:
       }
       else if(targetId.dyn_cast<StringAttr>().getValue() == "gpu"){
         auto on_device_op = rewriter.create<sche::OnDeviceOp>
-            (loc, targetId.dyn_cast<StringAttr>().getValue(), 
-              targetConfig.dyn_cast<StringAttr>().getValue(), 
-              TypeRange{RankedTensorType::get(result_shape, input_tensor_type.getElementType())}, 
-              ValueRange{}, 
+            (loc, targetId.dyn_cast<StringAttr>().getValue(),
+              targetConfig.dyn_cast<StringAttr>().getValue(),
+              TypeRange{RankedTensorType::get(result_shape, input_tensor_type.getElementType())},
+              ValueRange{},
               [&](OpBuilder& builder, Location loc, ValueRange valueRange){
                 result = rewriter.create<tosa::ReduceSumOp>
-                        (loc, RankedTensorType::get(result_shape, input_tensor_type.getElementType()), 
+                        (loc, RankedTensorType::get(result_shape, input_tensor_type.getElementType()),
                         result, reduce_axis);
                 builder.create<sche::ReturnOp>(loc, ValueRange{result});
         });
         inter_results.push_back(on_device_op.getResult(0));
-          
+
       }
 
       start = end;
@@ -452,10 +452,10 @@ public:
         res = rewriter.create<tosa::ConcatOp>(loc, ValueRange{res, inter_results[i]}, split_axis);
       }
     }
-    
+
     reduceSumOp.getOutput().replaceAllUsesWith(res);
     rewriter.eraseOp(op);
-    
+
     return success();
 
   }
@@ -523,7 +523,7 @@ void DeviceSchedulePass::runOnOperation() {
   RewritePatternSet patterns(context);
   populateDeviceScheduleConversionPatterns(patterns);
 
-  
+
 
   auto moduleOp = getOperation();
 
